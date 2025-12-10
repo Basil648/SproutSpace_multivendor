@@ -98,7 +98,7 @@ export default function Register() {
         className="d-none d-md-block"
         style={{
           width: "70%",
-          backgroundImage: "url('YOUR_IMAGE_URL_HERE')",
+          backgroundImage: "url('https://media.gettyimages.com/id/1495293871/photo/group-of-farmer-family-and-community-working-on-rice-field-together.jpg?s=612x612&w=0&k=20&c=H6o5_NYAklTTAXYiNiYlw3bYa5THiH3jLsEgBbIBA_g=')",
           backgroundSize: "cover",
           backgroundPosition: "center"
         }}

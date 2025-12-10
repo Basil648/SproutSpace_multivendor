@@ -88,3 +88,30 @@ export const clearCart = async (req, res) => {
   await Cart.deleteOne({ customer: req.user._id });
   res.json({ message: "Cart cleared" });
 };
+
+// UPDATE CART QUANTITY (+1 / -1), new one 
+export const updateCartQuantity = async (req, res) => {
+  const { productId, action } = req.body;
+
+  let cart = await Cart.findOne({ customer: req.user._id });
+  if (!cart) return res.status(404).json({ message: "Cart not found" });
+
+  const item = cart.items.find(
+    (i) => i.productId.toString() === productId
+  );
+
+  if (!item)
+    return res.status(404).json({ message: "Item not found in cart" });
+
+  // Increment or decrement
+  if (action === "inc") item.quantity++;
+  if (action === "dec" && item.quantity > 1) item.quantity--;
+
+  await cart.save();
+
+  // Re-fetch with product details populated
+  cart = await Cart.findOne({ customer: req.user._id })
+    .populate("items.productId");
+
+  res.json(cart);
+};
