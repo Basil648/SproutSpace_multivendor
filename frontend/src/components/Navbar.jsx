@@ -1,12 +1,35 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FiShoppingCart, FiPower } from "react-icons/fi";
-import "../styles/navbar.css";
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Button,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Typography,
+  Divider,
+} from "@mui/material";
+
+import MenuIcon from "@mui/icons-material/Menu";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [showLogout, setShowLogout] = useState(false);
+
+  const [logoutMenu, setLogoutMenu] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleLogoutClick = (e) => setLogoutMenu(e.currentTarget);
+  const handleLogoutClose = () => setLogoutMenu(null);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -15,69 +38,166 @@ export default function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
+  const navItems = [
+    { name: "HOME", path: "/" },
+    { name: "PRODUCTS", path: "/customer" },
+    { name: "ABOUT", path: "/about" },
+    { name: "CONTACT", path: "/contact" },
+  ];
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-custom shadow-sm px-4">
-      <div className="container-fluid justify-content-center">
-
-        {/* CENTER NAV ITEMS */}
-        <div className="d-flex gap-5 align-items-center">
-
-          <Link
-            className={`nav-link ${isActive("/") ? "active-nav" : ""}`}
-            to="/"
+    <>
+      <AppBar
+        position="sticky"
+        elevation={0}
+        sx={{
+          background: "#ffffff",
+          borderBottom: "1px solid #e5e5e5",
+          color: "#111",
+          px: 2,
+        }}
+      >
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          
+          {/* MOBILE MENU BUTTON */}
+          <IconButton
+            sx={{ display: { xs: "flex", md: "none" } }}
+            onClick={() => setMobileOpen(true)}
           >
-            HOME
-          </Link>
+            <MenuIcon sx={{ fontSize: 28 }} />
+          </IconButton>
 
-          <Link
-            className={`nav-link ${isActive("/products") ? "active-nav" : ""}`}
-            to="/products"
+          {/* LEFT SPACER (desktop only) */}
+          <Box sx={{ width: 150, display: { xs: "none", md: "block" } }} />
+
+          {/* CENTER NAV LINKS (desktop only) */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              gap: 5,
+              alignItems: "center",
+            }}
           >
-            PRODUCTS
-          </Link>
-
-          <Link
-            className={`nav-link ${isActive("/about") ? "active-nav" : ""}`}
-            to="/about"
-          >
-            ABOUT
-          </Link>
-
-          <Link
-            className={`nav-link ${isActive("/contact") ? "active-nav" : ""}`}
-            to="/contact"
-          >
-            CONTACT
-          </Link>
-        </div>
-
-        {/* RIGHT ICONS */}
-        <div className="position-absolute end-0 me-4 d-flex align-items-center gap-4">
-
-          {/* CART ICON */}
-          <FiShoppingCart className="nav-icon" onClick={() => navigate("/cart")} />
-
-          {/* LOGOUT ICON */}
-          <div className="position-relative">
-            <FiPower
-              className="nav-icon"
-              onClick={() => setShowLogout(!showLogout)}
-            />
-
-            {showLogout && (
-              <div className="logout-menu position-absolute end-0 mt-2 p-2 shadow-sm">
-                <button
-                  className="btn btn-sm btn-danger w-100"
-                  onClick={handleLogout}
+            {navItems.map((item) => (
+              <Box key={item.path} sx={{ textAlign: "center", position: "relative" }}>
+                <Button
+                  component={Link}
+                  to={item.path}
+                  disableRipple
+                  sx={{
+                    fontWeight: 600,
+                    letterSpacing: 1,
+                    color: isActive(item.path) ? "#1E88E5" : "#333",
+                    "&:hover": { background: "transparent", color: "#1E88E5" },
+                  }}
                 >
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
+                  {item.name}
+                </Button>
 
-        </div>
-      </div>
-    </nav>
+                {isActive(item.path) && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      bottom: -4,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      width: "60%",
+                      height: "3px",
+                      borderRadius: 2,
+                      backgroundColor: "#1E88E5",
+                    }}
+                  />
+                )}
+              </Box>
+            ))}
+          </Box>
+
+          {/* RIGHT SECTION (cart + logout + future logo space) */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              width: 150,
+              justifyContent: "flex-end",
+            }}
+          >
+            {/* Cart */}
+            <IconButton onClick={() => navigate("/cart")}>
+              <ShoppingCartIcon sx={{ fontSize: 26, color: "#333" }} />
+            </IconButton>
+
+            {/* Logout Menu */}
+            <IconButton onClick={handleLogoutClick}>
+              <PowerSettingsNewIcon sx={{ fontSize: 26, color: "#d32f2f" }} />
+            </IconButton>
+
+            <Menu
+              anchorEl={logoutMenu}
+              open={Boolean(logoutMenu)}
+              onClose={handleLogoutClose}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+            >
+              <Typography sx={{ px: 2, pt: 1, fontSize: 14 }}>
+                Account Options
+              </Typography>
+              <Divider />
+              <MenuItem
+                onClick={handleLogout}
+                sx={{ color: "#d32f2f", fontWeight: 600 }}
+              >
+                Logout
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Toolbar>
+      </AppBar>
+
+      {/* MOBILE DRAWER MENU */}
+      <Drawer
+        anchor="left"
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        sx={{ display: { xs: "block", md: "none" } }}
+      >
+        <Box sx={{ width: 250, p: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
+            Menu
+          </Typography>
+
+          <List>
+            {navItems.map((item) => (
+              <ListItem key={item.path} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  to={item.path}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <ListItemText
+                    primary={item.name}
+                    primaryTypographyProps={{
+                      fontWeight: isActive(item.path) ? 700 : 500,
+                      color: isActive(item.path) ? "#1E88E5" : "#333",
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+
+          <Divider sx={{ my: 2 }} />
+
+          <Button
+            fullWidth
+            variant="contained"
+            color="error"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </Box>
+      </Drawer>
+    </>
   );
 }
