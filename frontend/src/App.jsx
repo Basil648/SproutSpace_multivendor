@@ -235,6 +235,8 @@ import PaymentCancel from "./pages/PaymentCancel";
 import CustomerProfile from "./pages/profile";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import ReturnForm from "./pages/ReturnForm";
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -250,6 +252,7 @@ function App() {
           <Route path="/payment-cancel" element={<PaymentCancel />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+
           {/* PROTECTED ROUTES */}
           <Route
             path="/customer"
@@ -310,6 +313,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <CustomerProfile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/return/:orderId"
+            element={
+              <ProtectedRoute>
+                <ReturnForm />
               </ProtectedRoute>
             }
           />

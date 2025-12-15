@@ -245,6 +245,8 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
 import VendorInquiries from "./VendorInquiries";
+import VendorReturns from "./VendorReturns";
+
 
 export default function VendorDashboard() {
   const token = localStorage.getItem("token");
@@ -369,6 +371,9 @@ export default function VendorDashboard() {
 
         <p style={{ cursor: "pointer" }} onClick={() => setPage("inquiries")}>
           Enquiries
+        </p>
+        <p style={{ cursor: "pointer" }} onClick={() => setPage("returns")}>
+          Returns
         </p>
 
         <p
@@ -504,6 +509,8 @@ export default function VendorDashboard() {
 
         {/* ENQUIRIES PAGE */}
         {page === "inquiries" && <VendorInquiries />}
+        {page === "returns" && <VendorReturns />}
+
       </div>
     </div>
   );

@@ -58,11 +58,11 @@ export default function CustomerDashboard() {
     }
   };
 
-  const bannerItems = [
-    { id: 1, img: "https://picsum.photos/1200/400?random=1" },
-    { id: 2, img: "https://picsum.photos/1200/400?random=2" },
-    { id: 3, img: "https://picsum.photos/1200/400?random=3" },
-  ];
+  // 
+  // Remove carousel imports if any:
+  // import Carousel from "react-material-ui-carousel";
+
+  const bannerImage = "/assets/prodbanner.jpg";
 
   return (
     <Box
@@ -98,37 +98,27 @@ export default function CustomerDashboard() {
           </Button>
         </Box>
 
-        {/* HERO CAROUSEL */}
-        <Box sx={{ mb: 5 }}>
-          <Carousel
-            animation="slide"
-            indicators={true}
-            navButtonsAlwaysVisible={false}
-            interval={3000}
-          >
-            {bannerItems.map((item) => (
-              <Paper
-                key={item.id}
-                elevation={3}
-                sx={{
-                  overflow: "hidden",
-                  borderRadius: 3,
-                  height: { xs: 180, md: 300 },
-                }}
-              >
-                <img
-                  src={item.img}
-                  alt="Banner"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-              </Paper>
-            ))}
-          </Carousel>
+        {/* PREMIUM SINGLE HERO BANNER */}
+        <Box
+          sx={{
+            mb: 5,
+            borderRadius: 3,
+            overflow: "hidden",
+            boxShadow: "0 6px 25px rgba(0,0,0,0.12)",
+          }}
+        >
+          <img
+            src={bannerImage}
+            alt="Hero Banner"
+            style={{
+              width: "100%",
+              height: "auto",
+              objectFit: "cover",
+            }}
+          />
         </Box>
+
+
 
         {/* PRODUCTS SECTION */}
         <Typography
@@ -235,120 +225,120 @@ export default function CustomerDashboard() {
               //   </Card>
               // </Grid>
               <Grid item key={p._id} sx={{ display: "flex", justifyContent: "center" }}>
-  <Card
-    elevation={3}
-    sx={{
-      width: 260,
-      height: 360,
-      borderRadius: "8px",
-      backgroundColor: "#FFFFFF",
-      border: "1px solid #E6E6E6",
-      overflow: "hidden",
-      display: "flex",
-      flexDirection: "column",
-      transition: "0.2s ease",
-      "&:hover": {
-        borderColor: "#000",
-      },
-    }}
-  >
-    {/* PRODUCT IMAGE */}
-    <CardMedia
-      component="img"
-      image={p.image}
-      sx={{
-        width: "100%",
-        height: 170,
-        objectFit: "cover",
-      }}
-    />
+                <Card
+                  elevation={3}
+                  sx={{
+                    width: 260,
+                    height: 360,
+                    borderRadius: "8px",
+                    backgroundColor: "#FFFFFF",
+                    border: "1px solid #E6E6E6",
+                    overflow: "hidden",
+                    display: "flex",
+                    flexDirection: "column",
+                    transition: "0.2s ease",
+                    "&:hover": {
+                      borderColor: "#000",
+                    },
+                  }}
+                >
+                  {/* PRODUCT IMAGE */}
+                  <CardMedia
+                    component="img"
+                    image={p.image}
+                    sx={{
+                      width: "100%",
+                      height: 170,
+                      objectFit: "cover",
+                    }}
+                  />
 
-    {/* PRODUCT CONTENT */}
-    <CardContent sx={{ flexGrow: 1, px: 2, py: 2 }}>
-      <Typography
-        sx={{
-          fontWeight: 600,
-          fontSize: "16px",
-          color: "#1A1A1A",
-          textTransform: "none",
-          letterSpacing: 0.2,
-          lineHeight: 1.3,
-          mb: 1,
-        }}
-      >
-        {p.name}
-      </Typography>
+                  {/* PRODUCT CONTENT */}
+                  <CardContent sx={{ flexGrow: 1, px: 2, py: 2 }}>
+                    <Typography
+                      sx={{
+                        fontWeight: 600,
+                        fontSize: "16px",
+                        color: "#1A1A1A",
+                        textTransform: "none",
+                        letterSpacing: 0.2,
+                        lineHeight: 1.3,
+                        mb: 1,
+                      }}
+                    >
+                      {p.name}
+                    </Typography>
 
-      {/* RATING PLACEHOLDER */}
-      <Box sx={{ display: "flex", gap: 0.7, mb: 1 }}>
-        {[...Array(5)].map((_, i) => (
-          <Box
-            key={i}
-            sx={{
-              width: 14,
-              height: 14,
-              backgroundColor: "#E3E3E3",
-              borderRadius: "2px",
-            }}
-          />
-        ))}
-      </Box>
+                    {/* RATING PLACEHOLDER */}
+                    <Box sx={{ display: "flex", gap: 0.7, mb: 1 }}>
+                      {[...Array(5)].map((_, i) => (
+                        <Box
+                          key={i}
+                          sx={{
+                            width: 14,
+                            height: 14,
+                            backgroundColor: "#E3E3E3",
+                            borderRadius: "2px",
+                          }}
+                        />
+                      ))}
+                    </Box>
 
-      <Typography
-        sx={{
-          color: "#333",
-          fontWeight: 600,
-          fontSize: "15px",
-        }}
-      >
-        ₹{p.price}
-      </Typography>
-    </CardContent>
+                    <Typography
+                      sx={{
+                        color: "#333",
+                        fontWeight: 600,
+                        fontSize: "15px",
+                      }}
+                    >
+                      ₹{p.price}
+                    </Typography>
+                  </CardContent>
 
-    {/* BUTTON */}
-    <CardActions sx={{ px: 2, pb: 2 }}>
-      <Button
-        fullWidth
-        variant="contained"
-        onClick={() => (window.location.href = `/product/${p._id}`)}
-        sx={{
-          backgroundColor: "#000",
-          color: "#fff",
-          borderRadius: "4px",
-          paddingY: "10px",
-          fontSize: "13px",
-          fontWeight: 700,
-          letterSpacing: 0.5,
-          position: "relative",
-          overflow: "hidden",
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: "-100%",
-            width: "100%",
-            height: "100%",
-            backgroundColor: "#fff",
-            transition: "all 0.3s ease",
-            zIndex: 1,
-          },
-          "&:hover": {
-            color: "#000",
-          },
-          "&:hover::after": {
-            left: 0,
-          },
-          "& > span": {
-            position: "relative",
-            zIndex: 2,
-          },
-        }}
-      >
-        <span>VIEW DETAILS</span>
-      </Button>
-    </CardActions>
-  </Card>
-</Grid>
+                  {/* BUTTON */}
+                  <CardActions sx={{ px: 2, pb: 2 }}>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      onClick={() => (window.location.href = `/product/${p._id}`)}
+                      sx={{
+                        backgroundColor: "#000",
+                        color: "#fff",
+                        borderRadius: "4px",
+                        paddingY: "10px",
+                        fontSize: "13px",
+                        fontWeight: 700,
+                        letterSpacing: 0.5,
+                        position: "relative",
+                        overflow: "hidden",
+                        "&::after": {
+                          content: '""',
+                          position: "absolute",
+                          top: 0,
+                          left: "-100%",
+                          width: "100%",
+                          height: "100%",
+                          backgroundColor: "#fff",
+                          transition: "all 0.3s ease",
+                          zIndex: 1,
+                        },
+                        "&:hover": {
+                          color: "#000",
+                        },
+                        "&:hover::after": {
+                          left: 0,
+                        },
+                        "& > span": {
+                          position: "relative",
+                          zIndex: 2,
+                        },
+                      }}
+                    >
+                      <span>VIEW DETAILS</span>
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
 
             ))}
         </Grid>
